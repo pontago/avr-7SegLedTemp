@@ -27,7 +27,7 @@ void showNumber(char dig, char num) {
   }
 }
 
-void adc_init(void) {
+void initAdc(void) {
   ADMUX = _BV(REFS0) | _BV(REFS1);
   ADCSRA = _BV(ADEN) | _BV(ADSC) | _BV(ADPS0);
   DIDR0 = _BV(ADC0D);
@@ -36,7 +36,7 @@ void adc_init(void) {
   PORTC = 0b00000000;
 }
 
-uint16_t adc_read(void){
+uint16_t readAdc(void){
   uint16_t v;
 
   ADCSRA |= _BV(ADSC);
@@ -58,12 +58,12 @@ int main(void) {
   DDRB = 0b00000111;
   DDRD = 0b11111111;
 
-  adc_init();
+  initAdc();
 
   for (;;) {
     char i, l;
 
-    result = adc_read();
+    result = readAdc();
     temp = (int16_t)((result * 1.1 / 1024 - 0.424) / 0.00625);
 
     if (temp < 0) {
